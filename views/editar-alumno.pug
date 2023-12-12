@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title Editar Alumno
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+  body
+    div.container
+      h2 Editar Alumno
+
+      form(action=`/editar-alumno/${alumno.id}` method="POST")
+        div.form-group
+          label Nombre</label>
+          input.form-control(type="text" name="columna1" placeholder="Nombre" value=alumno.columna1 required)
+        div.form-group
+          label Edad</label>
+          input.form-control(type="number" name="columna2" placeholder="Edad" value=alumno.columna2 required)
+        div.form-group
+          label Correo</label>
+          input.form-control(type="text" name="columna3" placeholder="Correo" value=alumno.columna3 required)
+        div.form-group
+          label Curso</label>
+          select.form-control(name="id_curso" required)
+            each curso in cursos
+              option(value=curso.id, selected=(alumno.id_curso == curso.id)) #{curso.nombre}
+        button.btn.btn-primary(type="submit") Actualizar
+
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")

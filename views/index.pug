@@ -1,0 +1,137 @@
+doctype html
+html
+  head
+    title Mi Aplicación
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+  body
+    div.container
+      h1 Mi Aplicación
+
+      ul.nav.nav-tabs
+        li.nav-item
+          a.nav-link(class=activeTab === 'alumnos' ? 'active' : '', href="#alumnos", data-toggle="tab") Datos de Alumnos
+        li.nav-item
+          a.nav-link(class=activeTab === 'cursos' ? 'active' : '', href="#cursos", data-toggle="tab") Datos de Cursos
+        li.nav-item
+          a.nav-link(class=activeTab === 'filtrar-alumnos' ? 'active' : '', href="#filtrar-alumnos", data-toggle="tab") Filtrar Alumnos
+
+      div.tab-content
+        // Tabla de Alumnos
+        div.tab-pane.fade.show.active(id="alumnos")
+          // Formulario para agregar nuevo alumno
+          h2 Agregar nuevo alumno
+          form(action="/agregar-alumno", method="POST")
+            div.form-group
+              label Nombre
+              input.form-control(type="text" name="columna1" placeholder="Nombre" required)
+            div.form-group
+              label Edad
+              input.form-control(type="number" name="columna2" placeholder="Edad" required)
+            div.form-group
+              label Correo
+              input.form-control(type="text" name="columna3" placeholder="Correo" required)
+            div.form-group
+              label Curso
+              select.form-control(name="id_curso" required)
+                if cursos
+                  each curso in cursos
+                    option(value=curso.id) #{curso.nombre}
+            button.btn.btn-success(type="submit") Agregar
+
+          // Tabla de Alumnos
+          h2 Datos de Alumnos
+          table.table.table-bordered.table-hover
+            thead
+              tr
+                th Nombre
+                th Edad
+                th Correo
+                th Curso
+                th Acciones
+            tbody
+              each alumno in (alumnos || [])
+                tr
+                  td= alumno.columna1
+                  td= alumno.columna2
+                  td= alumno.columna3
+                  td= alumno.id_curso
+                  td
+                    div.btn-group(role="group" aria-label="Acciones")
+                      form(action=`/eliminar-alumno/${alumno.id}`, method="POST" style="display:inline-block;")
+                        button.btn.btn-danger(type="submit") Eliminar
+                      a.btn.btn-warning(href=`/editar-alumno/${alumno.id}`) Editar
+
+        // Tabla de Cursos
+        div.tab-pane.fade(id="cursos")
+          // Formulario para agregar nuevo curso
+          h2 Agregar nuevo curso
+          form(action="/agregar-curso", method="POST")
+            div.form-group
+              label Nombre
+              input.form-control(type="text" name="nombre" placeholder="Nombre" required)
+            div.form-group
+              label Créditos
+              input.form-control(type="number" name="creditos" placeholder="Créditos" required)
+            button.btn.btn-success(type="submit") Agregar
+
+          // Tabla de Cursos
+          h2 Datos de Cursos
+          table.table.table-bordered.table-hover
+            thead
+              tr
+                th Nombre
+                th Créditos
+                th Acciones
+            tbody
+              each curso in cursos
+                tr
+                  td= curso.nombre
+                  td= curso.creditos
+                  td
+                    div.btn-group(role="group" aria-label="Acciones")
+                      form(action=`/eliminar-curso/${curso.id}`, method="POST" style="display:inline-block;")
+                        button.btn.btn-danger(type="submit") Eliminar
+                      a.btn.btn-warning(href=`/editar-curso/${curso.id}`) Editar
+
+
+          // Formulario de filtrado
+        div.tab-pane.fade(id="filtrar-alumnos")
+          h2 Filtrar Alumnos
+          form(action="/filtrar-alumnos", method="GET")
+            div.form-group
+              label Edad Mínima
+              input.form-control(type="number" name="edad" placeholder="Edad Mínima" required)
+            div.form-group
+              label Créditos Máximos
+              input.form-control(type="number" name="creditos" placeholder="Créditos Máximos" required)
+            button.btn.btn-success(type="submit") Filtrar
+
+          // Tabla filtrada
+          div.tab-pane.fade(id="filtrados", class=activeTab === 'filtrados' ? 'show active' : '')
+            h2 Resultados del Filtrado
+            table.table.table-bordered.table-hover
+              thead
+                tr
+                  th Nombre
+                  th Edad
+                  th Correo
+                  th Curso
+                  th Créditos Curso
+                  th Acciones
+              tbody
+                each alumno in (alumnosFiltrados || [])
+                  tr
+                    td= alumno.columna1
+                    td= alumno.columna2
+                    td= alumno.columna3
+                    td= alumno.id_curso
+                    td= alumno.creditos_curso
+                    td
+                      div.btn-group(role="group" aria-label="Acciones")
+                        form(action=`/eliminar-alumno/${alumno.id}`, method="POST" style="display:inline-block;")
+                          button.btn.btn-danger(type="submit") Eliminar
+                        a.btn.btn-warning(href=`/editar-alumno/${alumno.id}`) Editar
+
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")

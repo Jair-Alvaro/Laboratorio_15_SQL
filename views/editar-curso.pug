@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Editar Curso
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+  body
+    div.container
+      h2 Editar Curso
+
+      form(action=`/editar-curso/${curso.id}` method="POST")
+        div.form-group
+          label Nombre</label>
+          input.form-control(type="text" name="nombre" placeholder="Nombre" value=curso.nombre required)
+        div.form-group
+          label Créditos</label>
+          input.form-control(type="number" name="creditos" placeholder="Créditos" value=curso.creditos required)
+        button.btn.btn-primary(type="submit") Actualizar
+
+    script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js")
